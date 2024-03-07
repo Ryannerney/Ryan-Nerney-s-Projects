@@ -1,0 +1,907 @@
+# Step 1: prepare and load data
+import pandas as pd
+
+# Load the CSV file into a DataFrame
+data = pd.read_csv("Project2_Data_Sample_data.csv")
+
+# Display basic information about the DataFrame
+print("Basic Information about the Data:")
+print("---------------------------------")
+print(data.info())
+
+# Display the first few rows of the DataFrame
+print("\nFirst few rows of the Data:")
+print("---------------------------")
+print(data.head())
+
+# Display summary statistics of numeric columns
+print("\nSummary Statistics:")
+print("-------------------")
+print(data.describe())
+
+# List states in the data
+states_list = data['State'].unique()
+print("List of states in the data:")
+print(states_list)
+
+# List the amount of different counties in each state
+county_counts = data.groupby('State')['County'].nunique()
+print("\nAmount of different counties in each state:")
+print(county_counts)
+
+# Group data by State and compute summary statistics for specified columns
+summary_by_state = data.groupby('State')[
+    ['PerCapIncome', 'MedianHouseholdIncome', 'MedianFamilyIncome', 'Population', 'NumberHouseholds', 'ScoreHighSchool']
+].describe()
+
+# Print the statistic summary for each state
+print("Statistic Summary for Each State:")
+print(summary_by_state)
+
+import matplotlib.pyplot as plt
+
+# Load the CSV file into a DataFrame
+data = pd.read_csv("Project2_Data_Sample_data.csv")
+
+# Set up the figure and axes for subplots
+fig, axes = plt.subplots(3, 2, figsize=(16, 20))
+axes = axes.flatten()
+
+# Create histograms for each variable
+variables = ['PerCapIncome', 'MedianHouseholdIncome', 'MedianFamilyIncome', 'Population', 'NumberHouseholds', 'ScoreHighSchool']
+for i, variable in enumerate(variables):
+    ax = axes[i]
+    ax.bar(data['State'], data[variable])
+    ax.set_title(f'{variable} Across States')
+    ax.set_xlabel('State')
+    ax.set_ylabel(variable)
+    ax.tick_params(axis='x', rotation=45)
+
+# Adjust layout and show the plots
+plt.tight_layout()
+plt.show()
+
+county_counts = data.groupby('State')['County'].nunique().reset_index()
+
+# Set up the figure and axes for subplots
+fig, ax = plt.subplots(figsize=(12, 6))
+
+# Create a bar plot for the number of counties in each state
+ax.bar(county_counts['State'], county_counts['County'], color='skyblue')
+ax.set_title('Number of Counties in Each State')
+ax.set_xlabel('State')
+ax.set_ylabel('Number of Counties')
+ax.tick_params(axis='x', rotation=45)
+
+# Adjust layout and show the plot
+plt.tight_layout()
+plt.show()
+
+import pandas as pd
+
+# Load the CSV file into a DataFrame
+data = pd.read_csv("Project2_Data_Sample_data.csv")
+
+# Convert numeric columns to float type
+numeric_columns = ['PerCapIncome', 'MedianHouseholdIncome', 'MedianFamilyIncome', 'Population', 'NumberHouseholds', 'ScoreHighSchool']
+data[numeric_columns] = data[numeric_columns].astype(float)
+
+# Compute correlation matrix
+correlation_matrix = data.corr()
+
+# Print correlation matrix
+print("Correlation Matrix:")
+print(correlation_matrix)
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the CSV file into a DataFrame
+data = pd.read_csv("Project2_Data_Sample_data.csv")
+
+# Convert numeric columns to float type
+numeric_columns = ['PerCapIncome', 'MedianHouseholdIncome', 'MedianFamilyIncome', 'Population', 'NumberHouseholds', 'ScoreHighSchool']
+data[numeric_columns] = data[numeric_columns].astype(float)
+
+# Compute correlation matrix
+correlation_matrix = data.corr()
+
+# Create a heatmap for the correlation matrix
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", square=True)
+plt.title('Correlation Matrix')
+plt.show()
+
+import pandas as pd
+import numpy as np
+
+# Load the CSV file into a DataFrame
+data = pd.read_csv("Project2_Data_Sample_data.csv")
+
+# Convert numeric columns to float type
+numeric_columns = ['PerCapIncome', 'MedianHouseholdIncome', 'MedianFamilyIncome', 'Population', 'NumberHouseholds']
+data[numeric_columns] = data[numeric_columns].astype(float)
+
+# Generate log-transformed data
+log_transformed_data = pd.DataFrame()
+log_transformed_data['Log_PerCapIncome'] = np.log(data['PerCapIncome'])
+log_transformed_data['Log_MedianHouseholdIncome'] = np.log(data['MedianHouseholdIncome'])
+log_transformed_data['Log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+log_transformed_data['Log_Population'] = np.log(data['Population'])
+log_transformed_data['Log_NumberHouseholds'] = np.log(data['NumberHouseholds'])
+log_transformed_data['ScoreHighSchool'] = data['ScoreHighSchool']  # Retain original ScoreHighSchool column
+
+# Compute correlation matrix
+correlation_matrix = log_transformed_data.corr()
+
+# Print correlation matrix
+print("Correlation Matrix for Log-transformed Data:")
+print(correlation_matrix)
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the CSV file into a DataFrame
+data = pd.read_csv("Project2_Data_Sample_data.csv")
+
+# Convert numeric columns to float type
+numeric_columns = ['PerCapIncome', 'MedianHouseholdIncome', 'MedianFamilyIncome', 'Population', 'NumberHouseholds']
+data[numeric_columns] = data[numeric_columns].astype(float)
+
+# Generate log-transformed data
+log_transformed_data = pd.DataFrame()
+log_transformed_data['Log_PerCapIncome'] = np.log(data['PerCapIncome'])
+log_transformed_data['Log_MedianHouseholdIncome'] = np.log(data['MedianHouseholdIncome'])
+log_transformed_data['Log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+log_transformed_data['Log_Population'] = np.log(data['Population'])
+log_transformed_data['Log_NumberHouseholds'] = np.log(data['NumberHouseholds'])
+log_transformed_data['ScoreHighSchool'] = data['ScoreHighSchool']  # Retain original ScoreHighSchool column
+
+# Compute correlation matrix
+correlation_matrix = log_transformed_data.corr()
+
+# Create a heatmap for the correlation matrix
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", square=True)
+plt.title('Correlation Matrix for Log-transformed Data')
+plt.show()
+
+# from above analysis, I will try to discover the relation between  scoreHighSchool and Median Family Income
+#Step 2: Method 1: looking for the best Polynomial 
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+# Load your data
+data = pd.read_csv('Project2_Data_Sample_data.csv')
+
+# Drop rows with missing values
+data = data.dropna()
+
+# Add log-transformed column
+data['log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+
+# Prepare your data
+X = data[['ScoreHighSchool']]
+y = data['log_MedianFamilyIncome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Initialize variables
+best_degree = 0
+best_mse = float('inf')
+best_model = None
+
+# Hyperparameter tuning for Polynomial Regression degree
+for degree in range(1, 10):
+    # Polynomial Features
+    poly_features = PolynomialFeatures(degree=degree)
+    X_train_poly = poly_features.fit_transform(X_train_scaled)
+    X_test_poly = poly_features.transform(X_test_scaled)
+
+    # Linear Regression
+    model = LinearRegression()
+    model.fit(X_train_poly, y_train)
+    y_pred = model.predict(X_test_poly)
+
+    # Calculate MSE
+    mse = mean_squared_error(y_test, y_pred)
+
+    # Update best model if current model is better
+    if mse < best_mse:
+        best_mse = mse
+        best_degree = degree
+        best_model = model
+
+# Output the best degree and MSE
+print("Best Degree:", best_degree)
+print("Best MSE:", best_mse)
+
+# Visualize the best fit
+plt.scatter(X_test, y_test, color='black', label='Original Data')
+plt.xlabel('ScoreHighSchool')
+plt.ylabel('log(MedianFamilyIncome)')
+
+# Create a range of values for prediction
+x_values = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+
+# Transform features for polynomial regression
+x_poly = PolynomialFeatures(degree=best_degree).fit_transform(scaler.transform(x_values))
+
+# Predict values
+y_poly_pred = best_model.predict(x_poly)
+
+# Plot the best fit line
+plt.plot(x_values, y_poly_pred, color='blue', linewidth=2, label=f'Polynomial Regression (Degree {best_degree})')
+
+plt.legend()
+plt.title('Polynomial Regression')
+plt.show()
+
+#Step2: Method 2: looking for the best SGDRegressor
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import SGDRegressor
+from sklearn.metrics import mean_squared_error
+
+# Load your data
+data = pd.read_csv('Project2_Data_Sample_data.csv')
+
+# Drop rows with missing values
+data = data.dropna()
+
+# Add log-transformed column
+data['log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+
+# Prepare your data
+X = data[['ScoreHighSchool']]
+y = data['log_MedianFamilyIncome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Initialize variables
+best_alpha = 0
+best_max_iter = 0
+best_mse = float('inf')
+best_model = None
+
+# Hyperparameter tuning for SGDRegressor
+alpha_values = [0.0001, 0.001, 0.01, 0.1, 1]
+max_iter_values = [100, 200, 300, 400, 500]
+
+for alpha in alpha_values:
+    for max_iter in max_iter_values:
+        model = SGDRegressor(alpha=alpha, max_iter=max_iter, random_state=42)
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+        mse = mean_squared_error(y_test, y_pred)
+        if mse < best_mse:
+            best_mse = mse
+            best_alpha = alpha
+            best_max_iter = max_iter
+            best_model = model
+
+# Output the best hyperparameters and MSE
+print("Best Alpha:", best_alpha)
+print("Best Max Iterations:", best_max_iter)
+print("Best MSE:", best_mse)
+
+# Visualize the best fit
+plt.scatter(X_test, y_test, color='black', label='Original Data')
+plt.xlabel('ScoreHighSchool')
+plt.ylabel('log(MedianFamilyIncome)')
+
+# Create a range of values for prediction
+x_values = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+
+# Transform features for prediction
+x_scaled = scaler.transform(x_values)
+
+# Predict values
+y_pred = best_model.predict(x_scaled)
+
+# Plot the best fit line
+plt.plot(x_values, y_pred, color='blue', linewidth=2, label='SGDRegressor Best Fit')
+
+plt.legend()
+plt.title('SGDRegressor Best Fit')
+plt.show()
+
+#Step 2: Method 3: looking for the best Ridge Regression
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
+from sklearn.linear_model import Ridge
+from sklearn.metrics import mean_squared_error
+
+# Load your data
+data = pd.read_csv('Project2_Data_Sample_data.csv')
+
+# Drop rows with missing values
+data = data.dropna()
+
+# Add log-transformed column
+data['log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+
+# Prepare your data
+X = data[['ScoreHighSchool']]
+y = data['log_MedianFamilyIncome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Initialize variables
+best_alpha = 0
+best_mse = float('inf')
+best_model = None
+
+# Hyperparameter tuning for Ridge Regression
+alpha_values = [0.001, 0.01, 0.1, 1, 10]
+for alpha in alpha_values:
+    model = Ridge(alpha=alpha, random_state=42)
+    model.fit(X_train_scaled, y_train)
+    y_pred = model.predict(X_test_scaled)
+    mse = mean_squared_error(y_test, y_pred)
+    if mse < best_mse:
+        best_mse = mse
+        best_alpha = alpha
+        best_model = model
+
+# Output the best hyperparameters and MSE
+print("Best Alpha:", best_alpha)
+print("Best MSE:", best_mse)
+
+# Visualize the best fit
+plt.scatter(X_test, y_test, color='black', label='Original Data')
+plt.xlabel('ScoreHighSchool')
+plt.ylabel('log(MedianFamilyIncome)')
+
+# Create a range of values for prediction
+x_values = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+
+# Transform features for prediction
+x_scaled = scaler.transform(x_values)
+
+# Predict values
+y_pred = best_model.predict(x_scaled)
+
+# Plot the best fit line
+plt.plot(x_values, y_pred, color='blue', linewidth=2, label='Ridge Regression Best Fit')
+
+plt.legend()
+plt.title('Ridge Regression Best Fit')
+plt.show()
+
+# according above method, please pick up one method with the smallest MSE
+# Step 3: count how may records in each state
+import pandas as pd
+
+# Load the CSV file into a DataFrame
+data = pd.read_csv("Project2_Data_Sample_data.csv")
+
+# Count records for each state after dropping rows with missing values
+records_per_state = data.dropna(subset=['State']).groupby('State').size()
+
+# Display the count of records for each state
+print("Number of records for each state after dropping rows with missing values:")
+print(records_per_state)
+
+# above will select the state with the most records
+# Step 4(Option 2): if your best method is SGDRegressor, then run it in the state you has more data
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import SGDRegressor
+from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+
+# Load your data
+data = pd.read_csv('Project2_Data_Sample_data.csv')
+
+# Drop rows with missing values
+data = data.dropna()
+
+# Add log-transformed column
+data['log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+
+# Select data only for Florida
+Florida_data = data[data['State'] == 'Florida']
+
+# Print out the description of Florida data
+print(Florida_data.describe())
+
+# Prepare your data
+X =Florida_data[['ScoreHighSchool']]
+y =Florida_data['log_MedianFamilyIncome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=33)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Initialize variables
+best_alpha = 0
+best_max_iter = 0
+best_mse = float('inf')
+best_model = None
+
+# Hyperparameter tuning for SGDRegressor
+for alpha in [0.0001, 0.001, 0.01, 0.1, 1]:
+    for max_iter in [100, 500, 1000, 5000]:
+        model = SGDRegressor(alpha=alpha, max_iter=max_iter, random_state=42)
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+        mse = mean_squared_error(y_test, y_pred)
+        
+        if mse < best_mse:
+            best_mse = mse
+            best_alpha = alpha
+            best_max_iter = max_iter
+            best_model = model
+
+# Output the best parameters and MSE
+print("Best Alpha:", best_alpha)
+print("Best Max Iterations:", best_max_iter)
+print("Best MSE:", best_mse)
+
+# Forecasting for different ScoreHighSchool levels
+score_levels = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+for score_level in score_levels:
+    # Scale the input
+    scaled_score = scaler.transform(np.array([[score_level]]))
+    
+    # Make the prediction
+    forecast_log_income = best_model.predict(scaled_score)[0]
+    
+    # Convert log income to actual income
+    forecast_income = np.exp(forecast_log_income)
+    
+    # Print the result
+    print(f"For ScoreHighSchool={score_level}, Forecasted MedianFamilyIncome: {forecast_income:.2f}")
+
+# Visualize the best fit
+plt.scatter(X_test, y_test, color='green', label='Group 1 Data')
+plt.xlabel('ScoreHighSchool')
+plt.ylabel('log(MedianFamilyIncome)')
+
+# Create a range of values for prediction
+x_values = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+
+# Transform features for prediction
+x_scaled = scaler.transform(x_values)
+
+# Predict values
+y_pred = best_model.predict(x_scaled)
+
+# Plot the best fit line
+plt.plot(x_values, y_pred, color='purple', linewidth=2, label=f'SGDRegressor (Alpha={best_alpha}, Max Iter={best_max_iter})')
+
+plt.legend()
+plt.title('Florida SGDRegressor Best Fit')
+plt.show()
+
+# above will select the state with the most records
+# Step 4(Option 2): if your best method is SGDRegressor, then run it in the state you has more data
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import SGDRegressor
+from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+
+# Load your data
+data = pd.read_csv('Project2_Data_Sample_data.csv')
+
+# Drop rows with missing values
+data = data.dropna()
+
+# Add log-transformed column
+data['log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+
+# Select data only for Pennsylvania
+Pennsylvania_data = data[data['State'] == 'Pennsylvania']
+
+# Print out the description of Pennsylvania data
+print(Pennsylvania_data.describe())
+
+# Prepare your data
+X =Pennsylvania_data[['ScoreHighSchool']]
+y =Pennsylvania_data['log_MedianFamilyIncome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=12)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Initialize variables
+best_alpha = 0
+best_max_iter = 0
+best_mse = float('inf')
+best_model = None
+
+# Hyperparameter tuning for SGDRegressor
+for alpha in [0.0001, 0.001, 0.01, 0.1, 1]:
+    for max_iter in [100, 500, 1000, 5000]:
+        model = SGDRegressor(alpha=alpha, max_iter=max_iter, random_state=42)
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+        mse = mean_squared_error(y_test, y_pred)
+        
+        if mse < best_mse:
+            best_mse = mse
+            best_alpha = alpha
+            best_max_iter = max_iter
+            best_model = model
+
+# Output the best parameters and MSE
+print("Best Alpha:", best_alpha)
+print("Best Max Iterations:", best_max_iter)
+print("Best MSE:", best_mse)
+
+# Forecasting for different ScoreHighSchool levels
+score_levels = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+for score_level in score_levels:
+    # Scale the input
+    scaled_score = scaler.transform(np.array([[score_level]]))
+    
+    # Make the prediction
+    forecast_log_income = best_model.predict(scaled_score)[0]
+    
+    # Convert log income to actual income
+    forecast_income = np.exp(forecast_log_income)
+    
+    # Print the result
+    print(f"For ScoreHighSchool={score_level}, Forecasted MedianFamilyIncome: {forecast_income:.2f}")
+
+# Visualize the best fit
+plt.scatter(X_test, y_test, color='blue', label='Group 1 Data')
+plt.xlabel('ScoreHighSchool')
+plt.ylabel('log(MedianFamilyIncome)')
+
+# Create a range of values for prediction
+x_values = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+
+# Transform features for prediction
+x_scaled = scaler.transform(x_values)
+
+# Predict values
+y_pred = best_model.predict(x_scaled)
+
+# Plot the best fit line
+plt.plot(x_values, y_pred, color='red', linewidth=2, label=f'SGDRegressor (Alpha={best_alpha}, Max Iter={best_max_iter})')
+
+plt.legend()
+plt.title('Pennsylvania SGDRegressor Best Fit')
+plt.show()
+
+# above will select the state with the most records
+# Step 4(Option 2): if your best method is SGDRegressor, then run it in the state you has more data
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import SGDRegressor
+from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+
+# Load your data
+data = pd.read_csv('Project2_Data_Sample_data.csv')
+
+# Drop rows with missing values
+data = data.dropna()
+
+# Add log-transformed column
+data['log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+
+# Select data only for Louisina
+Louisiana_data = data[data['State'] == 'Louisiana']
+
+# Print out the description of Louisina data
+print(Louisiana_data.describe())
+
+# Prepare your data
+X =Louisiana_data[['ScoreHighSchool']]
+y =Louisiana_data['log_MedianFamilyIncome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=12)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Initialize variables
+best_alpha = 0
+best_max_iter = 0
+best_mse = float('inf')
+best_model = None
+
+# Hyperparameter tuning for SGDRegressor
+for alpha in [0.0001, 0.001, 0.01, 0.1, 1]:
+    for max_iter in [100, 500, 1000, 5000]:
+        model = SGDRegressor(alpha=alpha, max_iter=max_iter, random_state=27)
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+        mse = mean_squared_error(y_test, y_pred)
+        
+        if mse < best_mse:
+            best_mse = mse
+            best_alpha = alpha
+            best_max_iter = max_iter
+            best_model = model
+
+# Output the best parameters and MSE
+print("Best Alpha:", best_alpha)
+print("Best Max Iterations:", best_max_iter)
+print("Best MSE:", best_mse)
+
+# Forecasting for different ScoreHighSchool levels
+score_levels = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+for score_level in score_levels:
+    # Scale the input
+    scaled_score = scaler.transform(np.array([[score_level]]))
+    
+    # Make the prediction
+    forecast_log_income = best_model.predict(scaled_score)[0]
+    
+    # Convert log income to actual income
+    forecast_income = np.exp(forecast_log_income)
+    
+    # Print the result
+    print(f"For ScoreHighSchool={score_level}, Forecasted MedianFamilyIncome: {forecast_income:.2f}")
+
+# Visualize the best fit
+plt.scatter(X_test, y_test, color='black', label='Group 1 Data')
+plt.xlabel('ScoreHighSchool')
+plt.ylabel('log(MedianFamilyIncome)')
+
+# Create a range of values for prediction
+x_values = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+
+# Transform features for prediction
+x_scaled = scaler.transform(x_values)
+
+# Predict values
+y_pred = best_model.predict(x_scaled)
+
+# Plot the best fit line
+plt.plot(x_values, y_pred, color='pink', linewidth=2, label=f'SGDRegressor (Alpha={best_alpha}, Max Iter={best_max_iter})')
+
+plt.legend()
+plt.title('Louisiana SGDRegressor Best Fit')
+plt.show()
+
+# above will select the state with the most records
+# Step 4(Option 2): if your best method is SGDRegressor, then run it in the state you has more data
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import SGDRegressor
+from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+
+# Load your data
+data = pd.read_csv('Project2_Data_Sample_data.csv')
+
+# Drop rows with missing values
+data = data.dropna()
+
+# Add log-transformed column
+data['log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+
+# Select data only for Colorado
+Colorado_data = data[data['State'] == 'Colorado']
+
+# Print out the description of Colorado data
+print(Colorado_data.describe())
+
+# Prepare your data
+X =Colorado_data[['ScoreHighSchool']]
+y =Colorado_data['log_MedianFamilyIncome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=54)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Initialize variables
+best_alpha = 0
+best_max_iter = 0
+best_mse = float('inf')
+best_model = None
+
+# Hyperparameter tuning for SGDRegressor
+for alpha in [0.0001, 0.001, 0.01, 0.1, 1]:
+    for max_iter in [100, 500, 1000, 5000]:
+        model = SGDRegressor(alpha=alpha, max_iter=max_iter, random_state=27)
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+        mse = mean_squared_error(y_test, y_pred)
+        
+        if mse < best_mse:
+            best_mse = mse
+            best_alpha = alpha
+            best_max_iter = max_iter
+            best_model = model
+
+# Output the best parameters and MSE
+print("Best Alpha:", best_alpha)
+print("Best Max Iterations:", best_max_iter)
+print("Best MSE:", best_mse)
+
+# Forecasting for different ScoreHighSchool levels
+score_levels = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+for score_level in score_levels:
+    # Scale the input
+    scaled_score = scaler.transform(np.array([[score_level]]))
+    
+    # Make the prediction
+    forecast_log_income = best_model.predict(scaled_score)[0]
+    
+    # Convert log income to actual income
+    forecast_income = np.exp(forecast_log_income)
+    
+    # Print the result
+    print(f"For ScoreHighSchool={score_level}, Forecasted MedianFamilyIncome: {forecast_income:.2f}")
+
+# Visualize the best fit
+plt.scatter(X_test, y_test, color='gold', label='Group 1 Data')
+plt.xlabel('ScoreHighSchool')
+plt.ylabel('log(MedianFamilyIncome)')
+
+# Create a range of values for prediction
+x_values = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+
+# Transform features for prediction
+x_scaled = scaler.transform(x_values)
+
+# Predict values
+y_pred = best_model.predict(x_scaled)
+
+# Plot the best fit line
+plt.plot(x_values, y_pred, color='black', linewidth=2, label=f'SGDRegressor (Alpha={best_alpha}, Max Iter={best_max_iter})')
+
+plt.legend()
+plt.title('Colorado SGDRegressor Best Fit')
+plt.show()
+
+# above will select the state with the most records
+# Step 4(Option 2): if your best method is SGDRegressor, then run it in the state you has more data
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import SGDRegressor
+from sklearn.metrics import mean_squared_error
+import matplotlib.pyplot as plt
+
+# Load your data
+data = pd.read_csv('Project2_Data_Sample_data.csv')
+
+# Drop rows with missing values
+data = data.dropna()
+
+# Add log-transformed column
+data['log_MedianFamilyIncome'] = np.log(data['MedianFamilyIncome'])
+
+# Select data only for South Dakota
+SD_data = data[data['State'] == 'South Dakota']
+
+# Print out the description of South Dakota data
+print(SD_data.describe())
+
+# Prepare your data
+X =SD_data[['ScoreHighSchool']]
+y =SD_data['log_MedianFamilyIncome']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=59)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Initialize variables
+best_alpha = 0
+best_max_iter = 0
+best_mse = float('inf')
+best_model = None
+
+# Hyperparameter tuning for SGDRegressor
+for alpha in [0.0001, 0.001, 0.01, 0.1, 1]:
+    for max_iter in [100, 500, 1000, 5000]:
+        model = SGDRegressor(alpha=alpha, max_iter=max_iter, random_state=27)
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+        mse = mean_squared_error(y_test, y_pred)
+        
+        if mse < best_mse:
+            best_mse = mse
+            best_alpha = alpha
+            best_max_iter = max_iter
+            best_model = model
+
+# Output the best parameters and MSE
+print("Best Alpha:", best_alpha)
+print("Best Max Iterations:", best_max_iter)
+print("Best MSE:", best_mse)
+
+# Forecasting for different ScoreHighSchool levels
+score_levels = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+for score_level in score_levels:
+    # Scale the input
+    scaled_score = scaler.transform(np.array([[score_level]]))
+    
+    # Make the prediction
+    forecast_log_income = best_model.predict(scaled_score)[0]
+    
+    # Convert log income to actual income
+    forecast_income = np.exp(forecast_log_income)
+    
+    # Print the result
+    print(f"For ScoreHighSchool={score_level}, Forecasted MedianFamilyIncome: {forecast_income:.2f}")
+
+# Visualize the best fit
+plt.scatter(X_test, y_test, color='red', label='Group 1 Data')
+plt.xlabel('ScoreHighSchool')
+plt.ylabel('log(MedianFamilyIncome)')
+
+# Create a range of values for prediction
+x_values = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+
+# Transform features for prediction
+x_scaled = scaler.transform(x_values)
+
+# Predict values
+y_pred = best_model.predict(x_scaled)
+
+# Plot the best fit line
+plt.plot(x_values, y_pred, color='brown', linewidth=2, label=f'SGDRegressor (Alpha={best_alpha}, Max Iter={best_max_iter})')
+
+plt.legend()
+plt.title('South Dakota SGDRegressor Best Fit')
+plt.show()
+
